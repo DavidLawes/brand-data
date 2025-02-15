@@ -10,4 +10,8 @@ export class Products {
   get(id: string): Product | undefined {
     return this.products.find((product) => product.id === id);
   }
+
+  findMany(productIds: string[]): Product[] {
+    return this.products.filter((product) => productIds.includes(product.id));
+  }
 }
