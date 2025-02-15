@@ -19,6 +19,7 @@ export const productsRoutes =
     }>("/products/:productId/stores", async (request, reply) => {
       const { productId } = request.params;
       const products = productService.getStoreEntities(productId);
+      request.log.info(`Successfully found stores for productId: ${productId}`);
       reply.code(200).send(products);
     });
   };

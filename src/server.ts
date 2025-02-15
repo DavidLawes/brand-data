@@ -30,6 +30,8 @@ const json = JSON.parse(
     ),
   );
 
+// instantiating the classes required to model the different
+// types of data and the services required by the routes
 const brands = new Brands(json.data as Brand[])
 const products = new Products(json.embedded.products as Product[])
 const stores = new Stores(json.embedded.stores as Store[])
