@@ -10,24 +10,27 @@ import { Brand } from "./models/brands/brand.type";
 import fs from 'fs'
 import path from 'path'
 import { Brands } from "./models/brands";
-import { Product } from "./services/product";
+import { ProductService } from "./services/product";
 import { errorHandler } from "./middleware/errors";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { Products } from "./models/products";
+import { Product } from "./models/products/product.type";
 
 // importing static data here
 // could be replaced by initialising a db connection
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const data: Brand[] = JSON.parse(
+const json = JSON.parse(
     fs.readFileSync(
       path.resolve(__dirname, '../mock/brands.json'),
       "utf-8",
     ),
-  ).data;
+  );
 
-const brands = new Brands(data)
-const productService = new Product(brands)
+const brands = new Brands(json.data as Brand[])
+const products = new Products(json.embedded.products as Product[])
+const productService = new ProductService(brands, products)
 
 const server: FastifyInstance = Fastify({
   logger: true,
