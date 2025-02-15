@@ -3,7 +3,7 @@ import { Brands } from "../../models/brands";
 import { Products } from "../../models/products";
 import { Product } from "../../models/products/product.type";
 
-export class ProductService {
+export class BrandService {
   brands: Brands;
   products: Products;
 
@@ -12,7 +12,7 @@ export class ProductService {
     this.products = products;
   }
 
-  getProductEntitiesByBrand(brandId: string): Product[] {
+  getProductEntities(brandId: string): Product[] {
     const brand = this.brands.get(brandId);
 
     if (!brand) {

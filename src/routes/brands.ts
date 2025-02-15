@@ -1,20 +1,20 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { Product } from "../services/product";
+import { BrandService } from "../services/brands";
 
 type GetByBrandIdType = {
   brandId: string;
 };
 
-export const productRoutes =
-  (product: Product) => async (fastify: FastifyInstance) => {
+export const brandsRoutes =
+  (product: BrandService) => async (fastify: FastifyInstance) => {
     fastify.get(
-      "/product/:brandId",
+      "/brands/:brandId/products",
       async (
         request: FastifyRequest<{ Params: GetByBrandIdType }>,
         reply: FastifyReply,
       ) => {
         const { brandId } = request.params;
-        const products = product.getProductEntitiesByBrand(brandId);
+        const products = product.getProductEntities(brandId);
         reply.send(products);
       },
     );

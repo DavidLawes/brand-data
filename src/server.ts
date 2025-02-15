@@ -1,16 +1,14 @@
 import Fastify, {
   FastifyInstance,
-  FastifyRequest,
-  FastifyReply,
 } from "fastify";
 
-import { productRoutes } from "./routes/product";
+import { brandsRoutes } from "./routes/brands";
 import { Brand } from "./models/brands/brand.type";
 
 import fs from 'fs'
 import path from 'path'
 import { Brands } from "./models/brands";
-import { ProductService } from "./services/product";
+import { BrandService } from "./services/brands";
 import { errorHandler } from "./middleware/errors";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -30,7 +28,7 @@ const json = JSON.parse(
 
 const brands = new Brands(json.data as Brand[])
 const products = new Products(json.embedded.products as Product[])
-const productService = new ProductService(brands, products)
+const brandService = new BrandService(brands, products)
 
 const server: FastifyInstance = Fastify({
   logger: true,
@@ -40,11 +38,11 @@ const server: FastifyInstance = Fastify({
 errorHandler(server)
 
 // routes
-server.register(productRoutes(productService))
+server.register(brandsRoutes(brandService))
 
 // healthcheck endpoint - could be used in the future
 // to validate the server is running as expected
-server.get("/healthcheck", async (_request: FastifyRequest, _reply: FastifyReply) => {
+server.get("/healthcheck", async () => {
   return "OK";
 });
 

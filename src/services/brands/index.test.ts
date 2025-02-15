@@ -1,4 +1,4 @@
-import { ProductService } from ".";
+import { BrandService } from ".";
 import { BrandNotFoundError } from "../../errors";
 import { Brands } from "../../models/brands";
 import { Products } from "../../models/products";
@@ -6,8 +6,8 @@ import { Products } from "../../models/products";
 jest.mock("../../models/brands");
 jest.mock("../../models/products");
 
-describe("Product service", () => {
-  let productService: ProductService;
+describe("Brand service", () => {
+  let brandService: BrandService;
   let mockBrands: jest.Mocked<Brands>;
   let mockProducts: jest.Mocked<Products>;
 
@@ -20,7 +20,7 @@ describe("Product service", () => {
       (<unknown>Products)
     ))() as jest.Mocked<Products>;
 
-    productService = new ProductService(mockBrands, mockProducts);
+    brandService = new BrandService(mockBrands, mockProducts);
   });
 
   afterEach(() => {
@@ -36,7 +36,7 @@ describe("Product service", () => {
       });
 
       it("should throw a BrandNotFoundError", () => {
-        expect(() => productService.getProductEntitiesByBrand("123")).toThrow(
+        expect(() => brandService.getProductEntities("123")).toThrow(
           BrandNotFoundError,
         );
       });
@@ -58,9 +58,7 @@ describe("Product service", () => {
       });
 
       it("should return all product entities for given brand", () => {
-        expect(productService.getProductEntitiesByBrand("123")).toEqual([
-          mockProduct,
-        ]);
+        expect(brandService.getProductEntities("123")).toEqual([mockProduct]);
 
         expect(mockBrands.get).toHaveBeenCalledWith("123");
         expect(mockProducts.findMany).toHaveBeenCalledWith(mockBrand.products);
@@ -73,7 +71,7 @@ describe("Product service", () => {
         });
 
         it("should return an empty array", () => {
-          expect(productService.getProductEntitiesByBrand("123")).toEqual([]);
+          expect(brandService.getProductEntities("123")).toEqual([]);
         });
       });
 
@@ -92,7 +90,7 @@ describe("Product service", () => {
           ]);
         });
         it("should return all products", () => {
-          productService.getProductEntitiesByBrand("123");
+          brandService.getProductEntities("123");
 
           expect(mockBrands.get).toHaveBeenCalledWith("123");
           expect(mockProducts.findMany).toHaveBeenCalledWith([
