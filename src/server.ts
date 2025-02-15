@@ -14,6 +14,10 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { Products } from "./models/products";
 import { Product } from "./models/products/product.type";
+import { productsRoutes } from "./routes/products";
+import { ProductService } from "./services/products";
+import { Stores } from "./models/stores";
+import { Store } from "./models/stores/store.type";
 
 // importing static data here
 // could be replaced by initialising a db connection
@@ -28,7 +32,11 @@ const json = JSON.parse(
 
 const brands = new Brands(json.data as Brand[])
 const products = new Products(json.embedded.products as Product[])
+const stores = new Stores(json.embedded.stores as Store[])
 const brandService = new BrandService(brands, products)
+const productService = new ProductService({
+  brands, products, stores
+})
 
 const server: FastifyInstance = Fastify({
   logger: true,
@@ -39,6 +47,7 @@ errorHandler(server)
 
 // routes
 server.register(brandsRoutes(brandService))
+server.register(productsRoutes(productService))
 
 // healthcheck endpoint - could be used in the future
 // to validate the server is running as expected
