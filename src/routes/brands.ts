@@ -1,21 +1,24 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { BrandService } from "../services/brands";
+import { Product } from "../models/products/product.type";
 
-type GetByBrandIdType = {
+interface IParams {
   brandId: string;
-};
+}
+
+interface IReply {
+  200: Product[];
+  404: string;
+}
 
 export const brandsRoutes =
-  (product: BrandService) => async (fastify: FastifyInstance) => {
-    fastify.get(
-      "/brands/:brandId/products",
-      async (
-        request: FastifyRequest<{ Params: GetByBrandIdType }>,
-        reply: FastifyReply,
-      ) => {
-        const { brandId } = request.params;
-        const products = product.getProductEntities(brandId);
-        reply.send(products);
-      },
-    );
+  (brandService: BrandService) => async (fastify: FastifyInstance) => {
+    fastify.get<{
+      Params: IParams;
+      Reply: IReply;
+    }>("/brands/:brandId/products", async (request, reply) => {
+      const { brandId } = request.params;
+      const products = brandService.getProductEntities(brandId);
+      reply.code(200).send(products);
+    });
   };
