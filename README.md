@@ -16,6 +16,19 @@ This endpoint returns all the products for a given brand id.
 The service takes into account both the products and
 consolidated products defined for a given brand.
 
+### Get all stores by product id
+
+GET /products/:productId/stores
+
+This endpoint returns all the stores for a given product id.
+The service:
+
+- checks the product exists
+- finds brands that include the product id in their list of
+  products or consolidated products
+- derives a list of store ids from the associated brands
+- retrieves the corresponding store entities
+
 ## Setup
 
 The node version is defined in the .nvmrc, please
@@ -26,8 +39,7 @@ the required dependencies please run `npm i`.
 
 ### Tests
 
-Jest is used to run tests, a --watchAll flag has been
-defined in the package.json script. To run all tests:
+Jest is used to run tests. To run all tests:
 `npm test`
 
 ### Dev server
