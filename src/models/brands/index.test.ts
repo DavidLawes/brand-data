@@ -41,23 +41,15 @@ describe("Brands", () => {
       expect(brand.name).toBe("independent coffee locations");
     });
 
-    it("should return undefined if no brands include product", () => {
-      const brand = brands.getByProductId("123");
-
-      expect(brand).toBeUndefined();
-    });
-  });
-
-  describe("getByConsolidatedProductId", () => {
     it("should get the brand record by consolidated product id", () => {
-      const brand = brands.getByConsolidatedProductId("abc");
+      const brand = brands.getByProductId("abc");
 
       expect(brand).toBeDefined();
       expect(brand.name).toBe("independent coffee locations");
     });
 
-    it("should return undefined if no brands include consolidated product", () => {
-      const brand = brands.getByConsolidatedProductId("123");
+    it("should return undefined if no brands include product", () => {
+      const brand = brands.getByProductId("123");
 
       expect(brand).toBeUndefined();
     });
