@@ -1,10 +1,8 @@
 # brand-data
 
-This is a simple mock service to return brand-related
-data.
+This is a simple mock service to return brand-related data.
 
-The service is a TypeScript Fastify app using mocked
-data to represent the Brands, Products and Stores.
+The service is a TypeScript Fastify app using mocked data to represent the Brands, Products and Stores.
 
 ## Endpoints
 
@@ -13,8 +11,7 @@ data to represent the Brands, Products and Stores.
 GET /brands/:brandId/products
 
 This endpoint returns all the products for a given brand id.
-The service takes into account both the products and
-consolidated products defined for a given brand.
+The service takes into account both the products and consolidated products defined for a given brand.
 
 ### Get all stores by product id
 
@@ -31,8 +28,7 @@ The service:
 
 ## Tests
 
-Jest is used to run tests. To run all tests:
-`npm test`
+Jest is used to run tests. To run all tests: `npm test`.
 
 ## Setup
 
@@ -41,11 +37,7 @@ switch to this version (e.g. `nvm use 20.18.3`).
 
 ### Dev server
 
-The app relies on Redis for caching as well as the
-Typescript app. Assuming a macos user, to get the
-project setup locally execute the bash script defined
-in the project root:
-`./project-setup.sh`. This will:
+The app relies on Redis for caching as well as the Typescript app. Assuming a macos user, to get the project setup locally execute the bash script defined in the project root: `./project-setup.sh`. This will:
 
 - brew install redis if it is not already installed
 - install npm dependencies
@@ -55,14 +47,18 @@ A local server can then be started by running `npm run start-local`. This does 2
 - `npm run redis:start`: this will start a redis server.
 - `npm run dev`: this starts the local server.
 
-The local server uses [tsx](https://tsx.is/) and the
-`watch` option ensures that hot reloading is handled
-by default.
+The local server uses [tsx](https://tsx.is/) and the `watch` option ensures that hot reloading is handled by default.
 
-When the dev server has started the service will be
-available at http://localhost:8080.
+When the dev server has started the service will be available at http://localhost:8080.
 
 ### Code style
 
 Formatting is enforced using prettier: `npm run format`.
 Linting is validated using eslint: `npm run lint`.
+
+## Future improvements
+
+- Paginate the response data? I'm not sure how large the payload could get.
+- Maybe there are fastify plugins that could help tidy up the server and routes files, this was my first time working with that framework.
+- Integrate with a real db, this would allow SQL or SQL-like queries, increasing efficiency of retrieving data.
+- If deployed to cloud, maybe use lambda + api gateway to allow the service to scale on demand (unless we have high and consistent traffic in which case maybe ecs might be preferable).
