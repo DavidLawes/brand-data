@@ -18,6 +18,7 @@ import { productsRoutes } from "./routes/products";
 import { ProductService } from "./services/products";
 import { Stores } from "./models/stores";
 import { Store } from "./models/stores/store.type";
+import { Cache } from "./middleware/cache";
 
 // importing static data here
 // could be replaced by initialising a db connection
@@ -46,13 +47,14 @@ const server: FastifyInstance = Fastify({
 
 // middlewares
 errorHandler(server)
+const cache = new Cache()
 
 // routes
-server.register(brandsRoutes(brandService))
-server.register(productsRoutes(productService))
+server.register(brandsRoutes(brandService, cache))
+server.register(productsRoutes(productService, cache))
 
 // healthcheck endpoint - could be used in the future
-// to validate the server is running as expected
+// to support automated monitoring of server status
 server.get("/healthcheck", async () => {
   return "OK";
 });
