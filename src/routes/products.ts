@@ -13,14 +13,15 @@ interface IReply {
 }
 
 export const productsRoutes =
-  (productService: ProductService, cache: Cache) => async (fastify: FastifyInstance) => {
+  (productService: ProductService, cache: Cache) =>
+  async (fastify: FastifyInstance) => {
     fastify.get<{
       Params: IParams;
       Reply: IReply;
     }>("/products/:productId/stores", async (request, reply) => {
       const { productId } = request.params;
 
-      const cacheKey = `${productId}-stores`
+      const cacheKey = `${productId}-stores`;
       const cachedResult = await cache.get(cacheKey);
       if (cachedResult) {
         request.log.info(
@@ -28,7 +29,7 @@ export const productsRoutes =
         );
         return reply.code(200).send(JSON.parse(cachedResult) as Store[]);
       }
-      
+
       const stores = productService.getStoreEntities(productId);
       request.log.info(`Successfully found stores for productId: ${productId}`);
       await cache.set(cacheKey, JSON.stringify(stores));

@@ -21,7 +21,7 @@ export const brandsRoutes =
     }>("/brands/:brandId/products", async (request, reply) => {
       const { brandId } = request.params;
 
-      const cacheKey = `${brandId}-products`
+      const cacheKey = `${brandId}-products`;
       const cachedResult = await cache.get(cacheKey);
       if (cachedResult) {
         request.log.info(

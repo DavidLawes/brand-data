@@ -12,7 +12,7 @@
     "redis:start": "redis-server",
     "start-local": "npm run redis:start & npm run dev"
   },
-  "author": "",
+  "author": "David Lawes",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.20.0",
